@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Briefing de projeto para IA</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;600;700&display=swap">
+<style>
+:root{color-scheme:light dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#EEF1F4;--ink:#17212B;--mut:#556270;--line:#C6CFD8;--pan:#FFFFFF;--acc:#1B6B5A;--on:#FFFFFF}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#11161B;--ink:#E6EBEF;--mut:#97A4B0;--line:#2D3843;--pan:#181F26;--acc:#5CC4A6;--on:#0B1A15}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#11161B;--ink:#E6EBEF;--mut:#97A4B0;--line:#2D3843;--pan:#181F26;--acc:#5CC4A6;--on:#0B1A15}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Schibsted Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1260px;margin:0 auto;padding:20px 20px 56px}
+header{display:flex;flex-wrap:wrap;gap:14px 28px;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:16px}
+h1{font-size:clamp(1.7rem,4.5vw,2.5rem);line-height:1.08;margin:0;letter-spacing:-.02em}
+.sub{color:var(--mut);margin:8px 0 0;max-width:58ch}
+.hb{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--ink);border-radius:6px;overflow:hidden}
+.seg button{font:inherit;font-size:.9rem;padding:8px 14px;border:0;background:var(--pan);color:var(--ink);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);font-weight:600}
+.btn{font:inherit;font-weight:600;padding:9px 16px;border-radius:6px;border:1px solid var(--ink);background:var(--pan);color:var(--ink);cursor:pointer}
+.btn.p{background:var(--acc);border-color:var(--acc);color:var(--on)}
+main{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,440px);gap:40px;margin-top:22px}
+section{border-top:1px solid var(--line);padding:18px 0 10px}
+section:first-child{border-top:0;padding-top:4px}
+h2{font-size:1.2rem;margin:0}
+.d{color:var(--mut);margin:2px 0 14px;font-size:.92rem}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 20px}
+.f{display:flex;flex-direction:column;gap:6px;min-width:0}
+.w{grid-column:1/-1}
+.l{font-weight:600;font-size:.92rem}
+input[type=text],textarea,select{font:inherit;color:var(--ink);background:var(--pan);border:1px solid var(--line);border-radius:6px;padding:9px 10px;width:100%;box-sizing:border-box}
+textarea{resize:vertical}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips label{position:relative}
+.chips input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.chips span{display:block;padding:5px 12px;border:1px solid var(--line);border-radius:99px;background:var(--pan);font-size:.88rem}
+.chips input:checked+span{background:var(--acc);border-color:var(--acc);color:var(--on)}
+.chips input:focus-visible+span{outline:2px solid var(--acc);outline-offset:2px}
+.tg{display:flex;align-items:center;gap:10px;cursor:pointer;padding:5px 0;position:relative}
+.tg input{position:absolute;opacity:0;width:38px;height:22px;margin:0;cursor:pointer}
+.tg i{width:38px;height:22px;border-radius:99px;background:var(--line);position:relative;flex:none;transition:background .15s}
+.tg i::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--pan);transition:transform .15s}
+.tg input:checked+i{background:var(--acc)}
+.tg input:checked+i::after{transform:translateX(16px)}
+.tg input:focus-visible+i{outline:2px solid var(--acc);outline-offset:2px}
+.r{display:flex;align-items:center;gap:10px}
+.r input{flex:1;min-width:0;accent-color:var(--acc)}
+.rv{min-width:9em;text-align:right;font-size:.85rem;font-weight:600}
+.off .rv{color:var(--mut);font-weight:400}
+.off input{opacity:.45}
+.x{font:inherit;font-size:.8rem;background:none;border:0;color:var(--mut);text-decoration:underline;cursor:pointer;padding:2px}
+aside{position:sticky;top:16px;align-self:start}
+.mt{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:6px 0 10px}
+.mt b{display:block;height:100%;width:0;background:var(--acc);transition:width .2s}
+#out{height:min(60vh,560px);font:12.5px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.pb{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.tip{color:var(--mut);font-size:.82rem;margin:10px 0 0}
+[hidden]{display:none!important}
+@media (max-width:900px){main{grid-template-columns:1fr;gap:20px}aside{position:static}#out{height:380px}}
+@media (max-width:640px){.grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<div>
+<h1>Briefing de projeto para IA</h1>
+<p class="sub">Preencha o que souber e deixe o resto em branco. O pedido completo se monta ao lado: copie e cole no Claude ou em outra IA.</p>
+</div>
+<div class="hb">
+<div class="seg" role="group" aria-label="Modo do formulário"><button type="button" data-m="quick" aria-pressed="false">Essencial</button><button type="button" data-m="full" aria-pressed="true">Completo</button></div>
+<button type="button" class="btn p" id="cp1">Copiar pedido</button>
+</div>
+</header>
+<main>
+<form id="form" onsubmit="return false" autocomplete="off"></form>
+<aside>
+<div class="l">Pedido gerado</div>
+<div class="mt" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Campos essenciais preenchidos"><b id="bar"></b></div>
+<div class="tip" id="pct" style="margin:0 0 8px"></div>
+<textarea id="out" readonly aria-label="Pedido gerado"></textarea>
+<div class="pb"><button type="button" class="btn p" id="cp2">Copiar pedido</button><button type="button" class="btn" id="rst">Limpar tudo</button></div>
+<p class="tip">Dica: anexe prints, arquivos ou documentação junto ao pedido. Revise o plano que a IA devolver antes de pedir o código.</p>
+</aside>
+</main>
+</div>
+<script>
+const O=s=>s.split("|"),$=s=>document.querySelector(s);
+const NV=["Muito baixo","Baixo","Médio","Alto","Muito alto"];
+const S=[
+{t:"Projeto",d:"A ideia em si. Quanto mais concreto, melhor o resultado.",f:[
+{k:"nome",y:"t",l:"Nome do projeto",p:"Ex.: Controle de gastos pessoais",c:1},
+{k:"tipo",y:"s",l:"Tipo de programa",c:1,o:O("Aplicativo web|Aplicativo desktop|Aplicativo mobile|Site ou landing page|API ou backend|Extensão de navegador|Script ou automação|Ferramenta de linha de comando|Jogo|Bot (Telegram, Discord etc.)|Biblioteca ou pacote|Applet ou plugin|Outro")},
+{k:"resumo",y:"a",l:"O que o programa faz",p:"Em 2 a 4 frases: o que é, qual problema resolve e como a pessoa usa.",c:1,w:1},
+{k:"publico",y:"t",l:"Quem vai usar",p:"Ex.: freelancers sem conhecimento técnico",c:1},
+{k:"objetivo",y:"s",l:"Objetivo do projeto",c:1,o:O("Protótipo rápido para validar a ideia|MVP para lançar|Produto comercial completo|Estudo e aprendizado|Uso pessoal")},
+{k:"ref",y:"t",l:"Programas parecidos ou referências",p:"Nomes ou links",w:1}]},
+{t:"Tecnologia",d:"Se ainda não tem preferência, ligue a primeira opção.",f:[
+{k:"iaesc",y:"g",l:"Deixar a IA escolher a stack",c:1},
+{k:"lang",y:"c",l:"Linguagens preferidas",w:1,o:O("Python|JavaScript|TypeScript|Java|Kotlin|C#|C ou C++|Rust|Go|PHP|Dart|Swift|Bash")},
+{k:"fw",y:"t",l:"Frameworks e bibliotecas desejados",p:"React, Vue, Flutter, Electron, Django…",w:1},
+{k:"plat",y:"c",l:"Plataformas-alvo",c:1,w:1,o:O("Windows|Linux|macOS|Android|iOS|Navegador")},
+{k:"db",y:"s",l:"Armazenamento de dados",o:O("Nenhum|Arquivos locais (JSON ou CSV)|SQLite|PostgreSQL|MySQL|MongoDB|Firebase ou Supabase|A IA decide")},
+{k:"host",y:"s",l:"Onde vai rodar ou ser hospedado",o:O("Só no computador local|VPS|Vercel ou Netlify|Nuvem (AWS, GCP, Azure)|Loja de aplicativos|A IA decide")},
+{k:"deps",y:"r",l:"Uso de dependências externas",o:["Só biblioteca padrão","Poucas","Equilibrado","Livre","Use o que precisar"]},
+{k:"env",y:"t",l:"Versões e restrições do ambiente",p:"Ex.: Python 3.12, Node 22, sem internet"}]},
+{t:"Funcionalidades",d:"O coração do pedido. Uma ideia por linha nos campos grandes.",f:[
+{k:"must",y:"a",l:"Funcionalidades obrigatórias",p:"Uma por linha",c:1,w:1},
+{k:"nice",y:"a",l:"Desejáveis, se der",p:"Uma por linha"},
+{k:"out",y:"a",l:"Fora do escopo (NÃO fazer)",p:"Evita que a IA invente demais"},
+{k:"flow",y:"a",l:"Fluxo principal do usuário",p:"Passo a passo, da abertura ao resultado",w:1},
+{k:"telas",y:"a",l:"Telas ou páginas principais",p:"Uma por linha"},
+{k:"integ",y:"a",l:"Integrações e APIs externas",p:"Ex.: Pix, WhatsApp, Google Calendar"},
+{k:"auth",y:"s",l:"Contas e login",o:O("Sem login|Login simples (e-mail e senha)|Login social (Google etc.)|Vários perfis e permissões")},
+{k:"pay",y:"g",l:"Pagamentos online"},
+{k:"offl",y:"g",l:"Funcionar offline"},
+{k:"multi",y:"g",l:"Vários usuários ao mesmo tempo"},
+{k:"notif",y:"g",l:"Notificações"},
+{k:"imp",y:"g",l:"Importar e exportar dados"}]},
+{t:"Visual e experiência",d:"Aparência e uso. A IA decide o que ficar em branco.",f:[
+{k:"est",y:"s",l:"Estilo visual",o:O("Minimalista|Moderno e colorido|Corporativo|Retrô|Lúdico|Seguir o tema do sistema|A IA decide")},
+{k:"tema",y:"s",l:"Tema",o:O("Claro|Escuro|Claro e escuro|A IA decide")},
+{k:"cores",y:"t",l:"Cores e identidade visual",p:"Ex.: azul-marinho e laranja"},
+{k:"uiref",y:"t",l:"Referências visuais",p:"Apps ou sites de que você gosta"},
+{k:"uil",y:"c",l:"Idiomas da interface",w:1,o:O("Português (BR)|Inglês|Espanhol|Outros")},
+{k:"anim",y:"r",l:"Quantidade de animações",o:["Nenhuma","Sutil","Equilibrada","Marcante","Máxima"]},
+{k:"resp",y:"g",l:"Responsivo (celular e desktop)"},
+{k:"a11y",y:"g",l:"Acessibilidade (teclado, contraste, leitor de tela)"}]},
+{t:"Qualidade e engenharia",d:"Quanto de cada ingrediente você quer. Sem mexer no controle, nada é pedido.",f:[
+{k:"rob",y:"r",l:"Robustez e tratamento de erros",o:NV},
+{k:"seg",y:"r",l:"Segurança",o:NV},
+{k:"perf",y:"r",l:"Desempenho",o:NV},
+{k:"simp",y:"r",l:"Simplicidade do código",o:["Muito flexível","Flexível","Equilibrado","Simples","Muito simples"]},
+{k:"com",y:"r",l:"Comentários no código",o:["Nenhum","Poucos","Moderado","Bastante","Didático"]},
+{k:"lic",y:"s",l:"Licença do projeto",o:O("Não definir|MIT|GPL|Apache 2.0|Proprietária")},
+{k:"test",y:"g",l:"Testes automatizados"},
+{k:"tipos",y:"g",l:"Tipagem estática"},
+{k:"logs",y:"g",l:"Logs para depuração"},
+{k:"dock",y:"g",l:"Docker"},
+{k:"ci",y:"g",l:"CI/CD (GitHub Actions)"},
+{k:"read",y:"g",l:"README completo"},
+{k:"git",y:"g",l:"Estrutura pronta para Git"}]},
+{t:"Como a IA deve trabalhar",d:"Calibra explicações, perguntas e formato da resposta.",f:[
+{k:"nivel",y:"r",l:"Meu nível técnico neste assunto",c:1,o:["Iniciante total","Iniciante","Intermediário","Avançado","Especialista"]},
+{k:"idr",y:"s",l:"Idioma das respostas",c:1,o:O("Português (BR)|Inglês|Espanhol")},
+{k:"idc",y:"s",l:"Idioma do código e dos comentários",o:O("Inglês|Português (BR)")},
+{k:"ent",y:"s",l:"Formato da entrega",c:1,o:O("Arquivo único completo|Projeto com vários arquivos|Passo a passo, etapa por etapa|Só o trecho que muda")},
+{k:"amb",y:"t",l:"Meu ambiente de trabalho",p:"Ex.: Fedora, VS Code, terminal bash",w:1},
+{k:"perg",y:"g",l:"Fazer perguntas antes de assumir",c:1},
+{k:"plano",y:"g",l:"Mostrar plano antes do código",c:1},
+{k:"expl",y:"g",l:"Explicar decisões e conceitos"},
+{k:"etap",y:"g",l:"Entregar em etapas testáveis"},
+{k:"run",y:"g",l:"Incluir comandos de instalação e execução"},
+{k:"alt",y:"g",l:"Apresentar alternativas com prós e contras"},
+{k:"crit",y:"g",l:"Apontar riscos e falhas na minha ideia"},
+{k:"comp",y:"g",l:"Código completo, sem trechos omitidos"}]},
+{t:"Negócio e contexto",d:"Detalhes que mudam decisões técnicas.",f:[
+{k:"mon",y:"s",l:"Modelo de monetização",o:O("Nenhum ou não se aplica|Compra única|Assinatura|Freemium|Anúncios|SaaS para empresas|Doação ou código aberto|Ainda não sei")},
+{k:"prazo",y:"t",l:"Prazo e orçamento",p:"Ex.: 2 semanas, custo zero de hospedagem"},
+{k:"lgpd",y:"g",l:"Considerar LGPD e privacidade"},
+{k:"ace",y:"a",l:"Critérios de aceite",p:"Como saber que está pronto e funcionando?",w:1},
+{k:"ex",y:"a",l:"Exemplos de entrada e saída",p:"Dados de exemplo, formato esperado",w:1},
+{k:"cod",y:"a",l:"Código ou arquivos existentes",p:"Cole trechos ou descreva a estrutura atual",w:1},
+{k:"obs",y:"a",l:"Observações finais",w:1}]}
+];
+const FM={};S.forEach(s=>s.f.forEach(f=>FM[f.k]=f));
+let V={};try{V=JSON.parse(localStorage.getItem("brief1")||"{}")||{}}catch(e){}
+const sv=()=>{try{localStorage.setItem("brief1",JSON.stringify(V))}catch(e){}};
+function fld(f){
+const id="i_"+f.k,p=f.p||"";let h;
+if(f.y=="g")return `<div class="f" data-k="${f.k}" data-y="g"${f.c?" data-c":""}><label class="tg"><input type="checkbox" role="switch"><i></i><span>${f.l}</span></label></div>`;
+if(f.y=="t")h=`<input type="text" id="${id}" placeholder="${p}">`;
+else if(f.y=="a")h=`<textarea id="${id}" rows="${f.w?4:3}" placeholder="${p}"></textarea>`;
+else if(f.y=="s")h=`<select id="${id}"><option value="">Não definido</option>${f.o.map(x=>`<option>${x}</option>`).join("")}</select>`;
+else if(f.y=="c")h=`<div class="chips" role="group" aria-label="${f.l}">${f.o.map(x=>`<label><input type="checkbox" value="${x}"><span>${x}</span></label>`).join("")}</div>`;
+else h=`<div class="r"><input type="range" min="1" max="5" step="1" id="${id}" value="3"><span class="rv"></span><button type="button" class="x" data-clr>limpar</button></div>`;
+return `<div class="f${f.w?" w":""}" data-k="${f.k}" data-y="${f.y}"${f.c?" data-c":""}><label class="l" for="${id}">${f.l}</label>${h}</div>`}
+$("#form").innerHTML=S.map(s=>`<section><h2>${s.t}</h2><p class="d">${s.d}</p><div class="grid">${s.f.map(fld).join("")}</div></section>`).join("");
+function rv(w){const k=w.dataset.k,v=V[k];w.classList.toggle("off",v==null);w.querySelector(".rv").textContent=v==null?"não definido":FM[k].o[v-1];w.querySelector("input").value=v==null?3:v}
+document.querySelectorAll("[data-k]").forEach(w=>{const k=w.dataset.k,y=w.dataset.y,v=V[k];
+if(y=="c")w.querySelectorAll("input").forEach(i=>i.checked=Array.isArray(v)&&v.includes(i.value));
+else if(y=="g")w.querySelector("input").checked=!!v;
+else if(y=="r")rv(w);
+else w.querySelector("input,textarea,select").value=v||""});
+function filled(f){const v=V[f.k];return f.y=="c"?v&&v.length:f.y=="r"?v!=null:v&&v.trim()}
+function build(){
+const P=["# Briefing de desenvolvimento","","Atue como um engenheiro de software sênior e mentor paciente. Desenvolva o programa descrito neste briefing. Onde o briefing for omisso, faça suposições razoáveis e liste-as no início da resposta."];
+S.forEach(s=>{const ln=[];s.f.forEach(f=>{const v=V[f.k];
+if(f.y=="g"){if(v)ln.push("- Sim: "+f.l)}
+else if(f.y=="r"){if(v!=null)ln.push(`- **${f.l}:** ${f.o[v-1]} (${v} de 5)`)}
+else if(f.y=="c"){if(v&&v.length)ln.push(`- **${f.l}:** ${v.join(", ")}`)}
+else if(v&&v.trim()){ln.push(f.y=="a"?`- **${f.l}:**\n`+v.trim().split("\n").map(x=>"  "+x).join("\n"):`- **${f.l}:** ${v.trim()}`)}});
+if(ln.length)P.push("","## "+s.t,...ln)});
+P.push("","## Regras gerais","- Não adicione funcionalidades fora do escopo definido.","- Se algo for ambíguo ou arriscado, sinalize em vez de decidir em silêncio.","- Ao final, resuma o que foi entregue e sugira os próximos passos.");
+return P.join("\n")}
+const CORE=Object.values(FM).filter(f=>f.c&&f.y!="g");
+function upd(){$("#out").value=build();const n=CORE.filter(filled).length,p=Math.round(100*n/CORE.length);
+$("#bar").style.width=p+"%";$("#pct").textContent=`Campos essenciais: ${n} de ${CORE.length}`;$(".mt").setAttribute("aria-valuenow",p)}
+$("#form").addEventListener("input",e=>{const w=e.target.closest("[data-k]");if(!w)return;const k=w.dataset.k,y=w.dataset.y,el=e.target;
+if(y=="c")V[k]=[...w.querySelectorAll("input:checked")].map(x=>x.value);
+else if(y=="g")V[k]=el.checked;
+else if(y=="r"){V[k]=+el.value;rv(w)}
+else V[k]=el.value;sv();upd()});
+$("#form").addEventListener("click",e=>{if(!e.target.matches("[data-clr]"))return;const w=e.target.closest("[data-k]");delete V[w.dataset.k];rv(w);sv();upd()});
+function mode(m){V.__m=m;document.body.classList.toggle("quick",m=="quick");
+document.querySelectorAll(".f").forEach(f=>f.hidden=m=="quick"&&!f.hasAttribute("data-c"));
+document.querySelectorAll("section").forEach(s=>s.hidden=m=="quick"&&!s.querySelector(".f:not([hidden])"));
+document.querySelectorAll("[data-m]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.m==m));sv()}
+document.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>mode(b.dataset.m));
+async function cp(b){const o=$("#out"),t=b.textContent;let ok=false;
+try{await navigator.clipboard.writeText(o.value);ok=true}catch(e){}
+if(!ok){o.focus();o.select();try{ok=document.execCommand("copy")}catch(e){}}
+b.textContent=ok?"Copiado":"Selecione e copie (Ctrl+C)";setTimeout(()=>b.textContent=t,1800)}
+$("#cp1").onclick=e=>cp(e.target);$("#cp2").onclick=e=>cp(e.target);
+let armed=0;$("#rst").onclick=e=>{const b=e.target;
+if(!armed){armed=1;b.textContent="Confirmar limpeza?";setTimeout(()=>{armed=0;b.textContent="Limpar tudo"},3000);return}
+V={};sv();location.reload()};
+mode(V.__m||"full");upd();
+</script>
+</body>
+</html>
